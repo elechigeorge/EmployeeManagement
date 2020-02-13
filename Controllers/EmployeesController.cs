@@ -45,7 +45,10 @@ namespace EmployeeManagement.Controllers
         // GET: Employees/Create
         public IActionResult AddOrEdit(int id=0)
         {
+            if(id == 0)
             return View(new Employee());
+            else
+                return View(_context.Employees.Find(id));
         }
 
         // POST: Employees/Create
@@ -53,11 +56,14 @@ namespace EmployeeManagement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,EmpCode,Position,Location")] Employee employee)
+        public async Task<IActionResult> AddOrEdit([Bind("Id,FullName,EmpCode,Position,Location")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+                if(employee.Id == 0)
                 _context.Add(employee);
+                else
+                    _context.Update(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -118,19 +124,11 @@ namespace EmployeeManagement.Controllers
         // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var employee = await _context.Employees.FindAsync(id);
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
         }
 
         // POST: Employees/Delete/5

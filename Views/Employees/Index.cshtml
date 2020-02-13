@@ -4,12 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Employees Register App</h1>
+<p>lorem ipsum de sun ops posiu defularun</p>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<hr />
+
+
+<table class="table table-hover table-bordered">
     <thead>
         <tr>
             <th>
@@ -24,7 +25,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Location)
             </th>
-            <th></th>
+            <th>
+                <a asp-action="AddOrEdit" class="btn btn-outline-success">Populate</a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -43,9 +46,8 @@
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="AddOrEdit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger ml-1" onclick="return confirm('Are you sure ?')">Delete</a>
             </td>
         </tr>
 }
